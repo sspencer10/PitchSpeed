@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        
+        <link rel="apple-touch-icon" sizes="128x128" href="images/niceicon.png">
+        <link rel="stylesheet" href="css/pitchSpeed.css">
+        
+        <script src="cordova.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/knockout-2.2.1.js"></script>
+        <script src="js/sevenSeg.js"></script>
+        <script src="js/custom.js"></script>
+        
+        <title>Pitch Speed</title>
+        
+    </head>
+    
+    <body>
+    
+        <div style="display:none" id="main">
+            <br>
+                <div id="speed"></div>
+            <br>
+            
+                <div id="container">
+                    <div id="item"></div>
+                </div>
+                
+                <div id="info">
+                    <div style="color:white" class="stat-text" id="dis"></div>
+                    <div style="color:white" class="stat-text" id="avg"></div>
+                    <button class="button" onclick="settings()">Settings</button>
+                </div>
+                
+         </div>
+         
+         <div style="display:none" id="form">
+         <!--
+            <center>
+            <h2 style="color:white">
+                Set Pitching Distance
+            </h2><br></center>
+            <div class="round-button"><div class="round-button-circle"><a href="http://example.com" onclick="sessionStorage.setItem('distance', '46'); window.location.reload(); event.preventDefault();" class="round-button">10U</a></div></div><br>
+            <div class="round-button"><div class="round-button-circle"><a href="http://example.com" onclick="sessionStorage.setItem('distance', '50'); window.location.reload(); event.preventDefault();" class="round-button">11/12U</a></div></div><br>
+            <div class="round-button"><div class="round-button-circle"><a href="http://example.com" onclick="sessionStorage.setItem('distance', '60.5'); window.location.reload(); event.preventDefault();" class="round-button">MLB</a></div></div><br>
+            <div class="round-button"><div class="round-button-circle"><a href="#" onclick="customDistance(); window.location.reload(); event.preventDefault();" class="round-button">Custom</a></div></div>
+            -->
+            
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+                        
+                        <p id="backBtn" onclick="" class="heading-text iosBlue"><strong></strong></p>                        
+                        <div class="my-4">
+                        <strong style="color: white; font-size:25px" class="mb-0"><center>Set Pitching Distance</center></strong>
+                        <p style="color:white"></p><br><br>
+                        
+                            <div style="background-color:black" class="list-group mb-5 shadow">
+                                
+                                <a href="#" onclick="sessionStorage.setItem('distance', '46'); window.location.reload(); event.preventDefault();">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">10U</strong>
+                                            <p class="text-muted sub-text">10U - 46 feet</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                </a>
+                                
+                                <a href="#" onclick="sessionStorage.setItem('distance', '50'); window.location.reload(); event.preventDefault();" >
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">11/12U</strong>
+                                            <p class="text-muted sub-text">11/12U - 50 feet</p>
+                                        </div>
+                                                                                
+                                    </div>
+                                </div>
+                                </a>
+                                
+                                <a href="#" onclick="sessionStorage.setItem('distance', '60.5'); window.location.reload(); event.preventDefault();">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">MLB</strong>
+                                            <p class="text-muted sub-text">MLB - 60 feet 6 inches</p>
+                                        </div>
+                                                    
+                                    </div>
+                                </div>
+                                </a>
+                                
+                                <a href="#" onclick="customDistance(); window.location.reload(); event.preventDefault();">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">Custom Distance</strong>
+                                            <p class="text-muted sub-text">Enter your own pitching distance</p>
+                                        </div>
+                                                    
+                                    </div>
+                                </div>
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+                    
+        <div id="howTo" style="display:none">
+            <h2 style="color:white"><center>
+                How to Use
+            </h2></center><br>
+            <h3 id="howP" style="color:white">
+                PRESS and HOLD button as soon as ball leaves pitchers hand<br><br>RELEASE button as soon as ball hits the catchers glove<br><br>The app will use the time the button was pressed and the pitching distance to calculate the speed in miles per hour
+            </h3>
+            <center><br><br>
+            <button class="button" id="resetAvg" onclick="$('#howTo').hide(); $('#form').show(); event.preventDefault();">OK</button>
+            </center>
+        </div>
+        
+        <div id="settings" style="display:none">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+                        
+                        <p id="backBtn" onclick="$('#settings').hide(); $('#main').show();" class="heading-text iosBlue"><strong>< Back</strong></p>                        
+                        <div class="my-4">
+                        <strong style="color: white; font-size:25px" class="mb-0"><center>App Settings</center></strong>
+                        <p style="color:white"></p><br><br>
+                        
+                            <div style="background-color:black" class="list-group mb-5 shadow">
+                                
+                                <a href="#" onclick="window.location.reload()">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">Reset</strong>
+                                            <p class="text-muted sub-text">Reset Average Pitch Speed</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                </a>
+                                
+                                <a href="#" onclick="sessionStorage.removeItem('distance'); window.location.reload()">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">Set Pitching Distance</strong>
+                                            <p class="text-muted sub-text">Set Pitching Distance (in feet)</p>
+                                        </div>
+                                                                                
+                                    </div>
+                                </div>
+                                </a>
+                                
+                                <!--
+                                <a href="#" onclick="">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">View Stats</strong>
+                                            <p class="text-muted sub-text">View Pitching Stats</p>
+                                        </div>
+                                                    
+                                    </div>
+                                </div>
+                                </a>
+                                -->
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        
+        <script type="text/javascript" src="js/pitchSpeed.js"></script>
+
+    </body>
+</html>

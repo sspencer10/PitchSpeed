@@ -6,6 +6,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         
         <link rel="apple-touch-icon" sizes="128x128" href="images/niceicon.png">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet" href="css/pitchSpeed.css">
         
         <script src="cordova.js"></script>
@@ -21,6 +22,7 @@
     
     <body>
     
+        <!-- Main Screen -->
         <div style="display:none" id="main">
             <br>
                 <div id="speed"></div>
@@ -38,30 +40,21 @@
                 
          </div>
          
+         <!-- Distance Screen -->
          <div style="display:none" id="form">
-         <!--
-            <center>
-            <h2 style="color:white">
-                Set Pitching Distance
-            </h2><br></center>
-            <div class="round-button"><div class="round-button-circle"><a href="http://example.com" onclick="sessionStorage.setItem('distance', '46'); window.location.reload(); event.preventDefault();" class="round-button">10U</a></div></div><br>
-            <div class="round-button"><div class="round-button-circle"><a href="http://example.com" onclick="sessionStorage.setItem('distance', '50'); window.location.reload(); event.preventDefault();" class="round-button">11/12U</a></div></div><br>
-            <div class="round-button"><div class="round-button-circle"><a href="http://example.com" onclick="sessionStorage.setItem('distance', '60.5'); window.location.reload(); event.preventDefault();" class="round-button">MLB</a></div></div><br>
-            <div class="round-button"><div class="round-button-circle"><a href="#" onclick="customDistance(); window.location.reload(); event.preventDefault();" class="round-button">Custom</a></div></div>
-            -->
             
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10 col-xl-8 mx-auto">
                         
-                        <p id="backBtn" onclick="" class="heading-text iosBlue"><strong></strong></p>                        
+                        <p id="backBtn" class="backItUp iosBlue"><strong><br></strong></p>                   
                         <div class="my-4">
-                        <strong style="color: white; font-size:25px" class="mb-0"><center>Set Pitching Distance</center></strong>
-                        <p style="color:white"></p><br><br>
+                            <p class="settings-header">Set Pitching Distance</p>
+                            <hr class="divider">
                         
                             <div style="background-color:black" class="list-group mb-5 shadow">
                                 
-                                <a href="#" onclick="sessionStorage.setItem('distance', '46'); window.location.reload(); event.preventDefault();">
+                                <a href="#" onclick="localStorage.setItem('distance', '46'); window.location.reload(); event.preventDefault();">
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
                                     
@@ -74,7 +67,7 @@
                                 </div>
                                 </a>
                                 
-                                <a href="#" onclick="sessionStorage.setItem('distance', '50'); window.location.reload(); event.preventDefault();" >
+                                <a href="#" onclick="localStorage.setItem('distance', '50'); window.location.reload(); event.preventDefault();" >
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
                                     
@@ -87,7 +80,7 @@
                                 </div>
                                 </a>
                                 
-                                <a href="#" onclick="sessionStorage.setItem('distance', '60.5'); window.location.reload(); event.preventDefault();">
+                                <a href="#" onclick="localStorage.setItem('distance', '60.5'); window.location.reload(); event.preventDefault();">
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
                                     
@@ -119,7 +112,8 @@
                 </div>
             </div>
         </div>       
-                    
+        
+        <!-- Onboarding Screen -->
         <div id="howTo" style="display:none">
             <h2 style="color:white"><center>
                 How to Use
@@ -132,59 +126,82 @@
             </center>
         </div>
         
+        <!-- Settings Screen -->
         <div id="settings" style="display:none">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10 col-xl-8 mx-auto">
                         
-                        <p id="backBtn" onclick="$('#settings').hide(); $('#main').show();" class="heading-text iosBlue"><strong>< Back</strong></p>                        
+                        <p id="backBtn" onclick="$('#settings').hide(); $('#main').show();" class="backItUp iosBlue"><strong>< Back</strong></p>                   
                         <div class="my-4">
-                        <strong style="color: white; font-size:25px" class="mb-0"><center>App Settings</center></strong>
-                        <p style="color:white"></p><br><br>
+                        <!--<strong style="color: white; font-size:25px" class="mb-0"><center>Settings</center></strong>-->
                         
-                            <div style="background-color:black" class="list-group mb-5 shadow">
+                        
+                            <div class="list-group mb-5 shadow">
+                                <p class="settings-header">Settings</p>
+                                <hr class="divider">
                                 
-                                <a href="#" onclick="window.location.reload()">
+                                <!-- Pitching Distance -->
+                                <a href="#" onclick="localStorage.removeItem('distance'); window.location.reload()">
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
-                                    
-                                        <div class="col">
-                                            <strong class="heading-text iosBlue">Reset</strong>
-                                            <p class="text-muted sub-text">Reset Average Pitch Speed</p>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                </a>
-                                
-                                <a href="#" onclick="sessionStorage.removeItem('distance'); window.location.reload()">
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                    
                                         <div class="col">
                                             <strong class="heading-text iosBlue">Set Pitching Distance</strong>
                                             <p class="text-muted sub-text">Set Pitching Distance (in feet)</p>
                                         </div>
-                                                                                
                                     </div>
                                 </div>
                                 </a>
                                 
-                                <!--
-                                <a href="#" onclick="">
+                                <!-- Reset Average -->
+                                <a href="#" onclick="arr=[];$('#settings').hide();$('#main').show();$('#avg').html('Average Speed: -- ');">
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
-                                    
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">Reset Average</strong>
+                                            <p class="text-muted sub-text">Reset Average Pitch Speed</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </a>
+                                                                
+                                <!-- Stats Page -->
+                                <a href="#" onclick="statsPage()">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
                                         <div class="col">
                                             <strong class="heading-text iosBlue">View Stats</strong>
                                             <p class="text-muted sub-text">View Pitching Stats</p>
                                         </div>
-                                                    
                                     </div>
                                 </div>
                                 </a>
-                                -->
+
+                                <!-- Vibration Switch -->
+                                <a href="#" onclick="vibration();event.preventDefault()">
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                    <strong class="heading-text iosBlue">Vibrations</strong>
+                                                    <span id="vib" class="material-symbols-outlined" style="float:right; margin-right:20px;margin-top:15px;font-size:25px;color:white">check_circle</span>
+                                                    <p class="text-muted sub-text">Turn on/off vibrations</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                                 
+                                <!-- App Version -->
+                                <a href="#" onclick="easterEgg()">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="heading-text iosBlue">App Version</strong>
+                                            <p id="version" class="text-muted sub-text"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </a>
+
                             </div>
                         </div>
                     </div>

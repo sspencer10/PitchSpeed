@@ -19,11 +19,13 @@
     "plugins": {
       "cordova-plugin-vibration": {},
       "cordova-plugin-taptic-engine": {},
-      "cordova-plugin-cutout": {}
+      "cordova-plugin-cutout": {},
+      "cordova-plugin-app-version": {}
     }
   },
   "devDependencies": {
-    "cordova-ios": "^6.3.0",
+    "cordova-ios": "^7.0.1",
+    "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-cutout": "^1.0.11",
     "cordova-plugin-taptic-engine": "^2.2.0",
     "cordova-plugin-vibration": "^3.1.1"

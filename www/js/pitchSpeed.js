@@ -1,4 +1,4 @@
-if (sessionStorage.getItem("distance") == null) {
+if (localStorage.getItem("distance") == null) {
     if (localStorage.getItem("how") == null) {
         localStorage.setItem("how", "true");
         $("#howTo").show();
@@ -20,7 +20,6 @@ if (sessionStorage.getItem("distance") == null) {
     item.addEventListener("touchstart", pressingDown, false);
     item.addEventListener("touchend", notPressingDown, false);
     
-    
     function initDisplay() {
         $("#speed").sevenSeg({
             digits: 3, 
@@ -30,14 +29,14 @@ if (sessionStorage.getItem("distance") == null) {
             colorOn: "White", 
         });
         document.getElementById("avg").innerHTML = "Average Speed: -- ";
-        if (sessionStorage.getItem("distance") == "46") {
+        if (localStorage.getItem("distance") == "46") {
             $("#dis").html("Pitching distance: 46 ft");
-        } else if (sessionStorage.getItem("distance") == "50") {
+        } else if (localStorage.getItem("distance") == "50") {
             $("#dis").html("Pitching distance: 50 ft");
-        } else if (sessionStorage.getItem("distance") == "60.5") {
+        } else if (localStorage.getItem("distance") == "60.5") {
             $("#dis").html("Pitching distance: 60.5 ft");
         } else {
-            var custDist = sessionStorage.getItem("distance");
+            var custDist = localStorage.getItem("distance");
             $("#dis").html("Pitching distance: " + custDist + " ft");
         }
     }   
@@ -59,7 +58,7 @@ if (sessionStorage.getItem("distance") == null) {
           if (elapsedTime < 0.1) {
             console.log("To Quick");
           } else {
-            mph = ((parseInt(sessionStorage.getItem("distance")) / elapsedTime) * 3600) / 5280;
+            mph = ((parseInt(localStorage.getItem("distance")) / elapsedTime) * 3600) / 5280;
             mph = mph.toFixed(0)  
             arr.push(parseInt(mph));
             let average = array => array.reduce((a, b) => a + b) / array.length;

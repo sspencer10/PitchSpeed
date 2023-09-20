@@ -6,21 +6,27 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         
         <link rel="apple-touch-icon" sizes="128x128" href="images/niceicon.png">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" href="css/material-icons.css">
+        <link rel="stylesheet" href="css/apexcharts.css">
         <link rel="stylesheet" href="css/pitchSpeed.css">
+        <link rel="stylesheet" href="css/seg.css">
         
+                
         <script src="cordova.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-ui.min.js"></script>
-        <script src="js/knockout-2.2.1.js"></script>
+        <script src="js/knockout-2.2.1.js"></script>.
         <script src="js/sevenSeg.js"></script>
+        <script src="js/apexcharts.js"></script>
         <script src="js/custom.js"></script>
         
         <title>Pitch Speed</title>
         
     </head>
     
-    <body>
+    <body id="myBody">
+    
     
         <!-- Main Screen -->
         <div style="display:none" id="main">
@@ -33,12 +39,28 @@
                 </div>
                 
                 <div id="info">
-                    <div style="color:white" class="stat-text" id="dis"></div>
-                    <div style="color:white" class="stat-text" id="avg"></div>
-                    <button class="button" onclick="settings()">Settings</button>
+                    <table>
+                      <tr>
+                        <th class="table-font">Pitching Distance </th>
+                        <td id="dis" class="table-font"></td>
+                      </tr>
+                      <tr>
+                        <th class="table-font">Average Speed </th>
+                        <td id="avg" class="table-font"></td>
+                      </tr>
+                      <tr>
+                        <th class="table-font">Fastest Speed </th>  
+                        <td id="fastest" class="table-font"></td>
+                      </tr>
+                      <tr>
+                        <th class="table-font">Pitch Count</th>  
+                        <td id="count" class="table-font"></td>
+                      </tr>
+                    </table>
                 </div>
                 
-         </div>
+        </div>
+         
          
          <!-- Distance Screen -->
          <div style="display:none" id="form">
@@ -113,6 +135,7 @@
             </div>
         </div>       
         
+        
         <!-- Onboarding Screen -->
         <div id="howTo" style="display:none">
             <h2 style="color:white"><center>
@@ -122,9 +145,30 @@
                 PRESS and HOLD button as soon as ball leaves pitchers hand<br><br>RELEASE button as soon as ball hits the catchers glove<br><br>The app will use the time the button was pressed and the pitching distance to calculate the speed in miles per hour
             </h3>
             <center><br><br>
-            <button class="button" id="resetAvg" onclick="$('#howTo').hide(); $('#form').show(); event.preventDefault();">OK</button>
+            <button class="button" id="okBtn" onclick="how2OK()">OK</button>
             </center>
         </div>
+        
+        
+        <!-- Apex Charts -->
+        <div id="charts" style="display:none">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+                        
+                        <p id="backBtn" onclick="back2Settings()" class="backItUp iosBlue"><strong>< Settings</strong></p>                   
+                        <div class="my-4">
+                            <div class="list-group mb-5 shadow">
+                                <p class="settings-header">Pitch History</p>
+                                <hr class="divider">
+                                <div id="chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        
         
         <!-- Settings Screen -->
         <div id="settings" style="display:none">
@@ -132,10 +176,8 @@
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10 col-xl-8 mx-auto">
                         
-                        <p id="backBtn" onclick="$('#settings').hide(); $('#main').show();" class="backItUp iosBlue"><strong>< Back</strong></p>                   
-                        <div class="my-4">
-                        <!--<strong style="color: white; font-size:25px" class="mb-0"><center>Settings</center></strong>-->
-                        
+                        <p id="backBtn" onclick="backBtn()" class="backItUp iosBlue"><strong>< Back</strong></p>                   
+                        <div class="my-4">                        
                         
                             <div class="list-group mb-5 shadow">
                                 <p class="settings-header">Settings</p>
@@ -154,12 +196,12 @@
                                 </a>
                                 
                                 <!-- Reset Average -->
-                                <a href="#" onclick="arr=[];$('#settings').hide();$('#main').show();$('#avg').html('Average Speed: -- ');">
+                                <a href="#" onclick="resetAvgs()">
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <strong class="heading-text iosBlue">Reset Average</strong>
-                                            <p class="text-muted sub-text">Reset Average Pitch Speed</p>
+                                            <strong class="heading-text iosBlue">Clear Stats</strong>
+                                            <p class="text-muted sub-text">Reset Avg Speed, Fastest Speed and History</p>
                                         </div>
                                     </div>
                                 </div>
@@ -170,8 +212,8 @@
                                 <div class="list-group-item">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <strong class="heading-text iosBlue">View Stats</strong>
-                                            <p class="text-muted sub-text">View Pitching Stats</p>
+                                            <strong class="heading-text iosBlue">Speed History</strong>
+                                            <p class="text-muted sub-text">View Pitching History Graph</p>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +225,7 @@
                                         <div class="row align-items-center">
                                             <div class="col">
                                                     <strong class="heading-text iosBlue">Vibrations</strong>
-                                                    <span id="vib" class="material-symbols-outlined" style="float:right; margin-right:20px;margin-top:15px;font-size:25px;color:white">check_circle</span>
+                                                    <span id="vib" class="material-icons" style="float:right; margin-right:20px;margin-top:15px;font-size:25px;color:white">check_circle</span>
                                                     <p class="text-muted sub-text">Turn on/off vibrations</p>
                                             </div>
                                         </div>
@@ -207,9 +249,20 @@
                     </div>
                 </div>
             </div>
-        </div>       
+        </div>  
         
+        <!-- Popup -->
+        <div id="dialog" title="Guess What???">
+            <p>Isaac S. is a stud!</p>
+        </div>
+        
+        <!-- Footer -->
+        <nav id="navBar" class="fixed-bottom">
+          <a class="navbar-brand" href="#" onclick="settings()"><span id="vib" class="material-icons settings-button">settings</span></a>
+        </nav>
+                
         <script type="text/javascript" src="js/pitchSpeed.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
     </body>
 </html>

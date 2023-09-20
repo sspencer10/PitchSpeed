@@ -34,6 +34,10 @@ function onDeviceReady() {
 }
 
   function statsPage() {
+  	$('#main').hide();
+  	$('#settings').hide();
+  	buildChart();
+  	$('#charts').show();
     console.log("Stats Page");
   }
   
@@ -48,13 +52,43 @@ function onDeviceReady() {
   	console.log("vibration")
   }
 
-  function easterEgg() {
-  	counter++;
-  	if (counter >= 6) {
-  		alert("Isaac Spencer is a stud!");
-  		counter = 0;
-  	}
-  }
+	function easterEgg() {
+		
+		// add to counter with each tap
+  		counter++;
+  		
+  		// if counter is 6 or greater
+	  	if (counter >= 6) {
+	  		
+	  		// open dialog
+	  		$( "#dialog" ).dialog();
+	  		$('#settings').css('opacity', '0.3');
+	  		window.isDialogOpen = true;
+	  		
+	  		// add event listener on settings div
+	  		document.getElementById("settings").addEventListener('touchstart', function(e){
+	  			if (window.isDialogOpen) {
+		  			e.preventDefault();
+		  			$("#dialog").dialog("close");
+		  			$('#settings').css('opacity', '1.0');
+		  			window.isDialogOpen = false;
+	  			}
+	  		});
+	  		
+	  		// add event listener on dialog div
+	  		document.getElementById("dialog").addEventListener('touchstart', function(e){
+	  			if (window.isDialogOpen) {
+	  				window.isDialogOpen = false;
+		  			e.preventDefault();
+		  			$( "#dialog" ).dialog("close");
+		  			$('#settings').css('opacity', '1.0');
+	  			}
+	  		});
+	  		
+	  		// reset counter
+	  		counter = 0;
+	  	}
+ 	}
 
   function customDistance() {
 	var a = prompt("Enter Pitching Distance...");
@@ -97,5 +131,39 @@ function resetDisplay() {
 
 function settings() {
 	$("#main").hide();
+	$("#navBar").hide();
 	$("#settings").show();
+}
+
+function resetAvgs() {
+	arr=[];
+	arr2=[];
+	chartCounter=1;
+	buildChart();
+	pitchCounter = 0;
+	document.getElementById("count").innerHTML = pitchCounter;
+	$('#settings').hide();
+	$('#main').show();
+	$('#navBar').show();
+	$('#avg').html('-- ');
+	$('#fastest').html('-- ');
+	resetDisplay();
+}
+
+function backBtn() {
+	$('#settings').hide(); 
+	$('#main').show(); 
+	$('#navBar').show();
+}
+
+function back2Settings() {
+	$('#charts').hide(); 
+	$('#settings').show();
+	$('#navBar').hide();
+}
+
+function how2OK() {
+	$('#howTo').hide(); 
+	$('#form').show(); 
+	event.preventDefault();
 }
